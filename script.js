@@ -1,4 +1,19 @@
 console.log("lets write javascript")
+let currentSong=new Audio();
+
+function secondsToMinutesSeconds(seconds){
+    if (isNaN(seconds) || seconds<0){
+        return "Invalid input";
+    }
+
+    const minutes=Math.floor(seconds/60);
+    const remainingSeconds=Math.floor(seconds%60);
+
+    const formattedMinutes=String(minutes).padStart(2,'0');
+    const formattedSeconds=String(remainingSeconds).padStart(2,'0');
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
 
 async function getSongs(){
     let a = await fetch ("http://127.0.0.1:3000/songs/")
@@ -18,17 +33,22 @@ async function getSongs(){
 
 }
 
-const playMusic=(track)=>{
-    let audio= new Audio("/songs/"+ track)
-    audio.play()
+const playMusic=(track,pause=false)=>{
+    // let audio= new Audio("/songs/"+ track)
+    currentSong.src="/songs/"+ track
+    if(!pause){
+        currentSong.play()
+        play.src="pause.svg"
+    }
+    play.src="pause.svg"
+    document.querySelector(".songinfo").innerHTML=decodeURI(track)
+    document.querySelector(".songtime").innerHTML="00/00 : 00/00"
 }
 
 async function main(){
-
-    let currentSong;
-
+    
     let songs= await getSongs()
-    console.log(songs)
+    playMusic(songs[0],true)
 
     let songUl=document.querySelector(".songList").getElementsByTagName("ul")[0]
     for (const song of songs) {
@@ -51,6 +71,21 @@ async function main(){
         })
     })
 
+    play.addEventListener("click",()=>{
+        if (currentSong.paused){
+            currentSong.play()
+            play.src="pause.svg"
+        }
+        else{
+            currentSong.pause()
+            play.src="play.svg"
+        }
+    })
+
+    currentSong.addEventListener("timeupdate",()=>{
+        console.log(currentSong.currentTime,currentSong.duration)
+        document.querySelector(".songtime").innerHTML=`${secondsToMinutesSeconds(currentSong.currentTime)}/${secondsToMinutesSeconds(currentSong.duration)}`
+    })
     
 }
 main()
