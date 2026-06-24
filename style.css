@@ -227,13 +227,14 @@ body {
 }
 
 .seekbar{
-    height: 2px;
+    height: 4px;
     width: 98%;
     background: black;
     position: absolute;
     bottom: 0px;
     border-radius: 10px;
     margin: 6px;
+    cursor: pointer;
 }
 
 .circle{
