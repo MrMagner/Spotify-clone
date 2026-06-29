@@ -174,7 +174,7 @@ body {
     border-radius: 10px;
     width: 70vw;
     padding: 12px;
-    height: 40px;
+    min-height: 40px;
 
 }
 
@@ -188,6 +188,17 @@ body {
     height: 544px;
     overflow: auto;
     margin-bottom: 44px;
+}
+
+.hamburger{
+    display: none;
+}
+
+.hamburgerContainer{
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    display: flex;
 }
 
 .songList ul {
@@ -260,4 +271,40 @@ body {
 .abovebar{
     display: flex;
     justify-content: space-between;
+    margin: 20px 0;
+}
+
+@media (max-width: 1400px){
+    .left{
+        background-color: black;
+        position: absolute;
+        left: -120%;
+        z-index: 1;
+        transition: all .3s;
+        width: 373px;
+    }
+
+    .left .close{
+        position: absolute;
+        width: 29px;
+        right: 31px;
+        top: 25px;
+
+    }
+
+    .right{
+        width: 100vw;
+    }
+
+    .playbar{
+        width: calc(100vw-60px);
+    }
+
+    .seekbar{
+        width: calc(100vw-60px);
+    }
+
+    .hamburger{
+        display: block;
+    }
 }
