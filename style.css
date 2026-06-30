@@ -264,8 +264,29 @@ body {
     cursor: pointer;
 }
 
-.songinfo, .songtime{
+.timevol{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.songinfo{
     color: black;
+    padding: 0 12px;
+    width: 250px;
+}
+
+.songtime{
+    width: 125px;
+    color: black;
+    padding: 0 12px;
+}
+
+.volume{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
 }
 
 .abovebar{
