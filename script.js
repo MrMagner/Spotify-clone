@@ -1,6 +1,7 @@
 console.log("lets write javascript")
 let currentSong = new Audio();
 let songs;
+let currFolder;
 
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
@@ -16,8 +17,9 @@ function secondsToMinutesSeconds(seconds) {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-async function getSongs() {
-    let a = await fetch("http://127.0.0.1:3000/songs/")
+async function getSongs(folder) {
+    currFolder=folder
+    let a = await fetch(`http://127.0.0.1:3000/${folder}/`)
     let response = await a.text()
     let div = document.createElement("div")
     div.innerHTML = response;
@@ -27,7 +29,8 @@ async function getSongs() {
     for (let index = 0; index < as.length; index++) {
         const element = as[index];
         if (element.href.endsWith(".mp3")) {
-            songs.push(element.href.split("/%5Csongs%5C")[1])
+            let lastPart = element.href.split("/").slice(-1)[0];
+            songs.push(lastPart.split("%5C").slice(-1)[0]);
         }
     }
     return songs
@@ -36,7 +39,7 @@ async function getSongs() {
 
 const playMusic = (track, pause = false) => {
     // let audio= new Audio("/songs/"+ track)
-    currentSong.src = "/songs/" + track
+    currentSong.src = `/${currFolder}/` + track
     if (!pause) {
         currentSong.play()
         play.src = "pause.svg"
@@ -48,7 +51,7 @@ const playMusic = (track, pause = false) => {
 
 async function main() {
 
-    songs = await getSongs()
+    songs = await getSongs("songs/ncs")
     playMusic(songs[0], true)
 
     let songUl = document.querySelector(".songList").getElementsByTagName("ul")[0]
